@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  app:
+    image: hello-world:php
+    build:
+      context: .
+    environment:
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=app_db
+      - POSTGRES_HOST=pg
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+  
+  pg:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=app_db
+    volumes:
+      - ./sql/fixtures.sql:/docker-entrypoint-initdb.d/fixtures.sql
